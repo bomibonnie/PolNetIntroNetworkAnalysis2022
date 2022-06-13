@@ -2,8 +2,13 @@
 #  Name:   Introduction to Network Analysis using R              #
 #  Date:   June 13, 2022                                         #
 #  Author: Bomi Lee (bomi.lee@uky.edu)                           #
-#  Purpose: Create network plots                                 #
+#  Purpose: Create network objects/plots                         #
 #           Calculate statistics using network data              #
+#  Input: atop_sample2.csv                                       #
+#         edgeList.csv                                           #
+#         nodeList.csv                                           #
+#         pndata.xlsx                                            #
+#         rivdefme1980.csv                                       #
 #  Thanks to Dr.Elizabeth Menninga for some of this code.        #
 ##################################################################
 
