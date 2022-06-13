@@ -423,4 +423,3 @@ pn_index(pnnet_1980) # range: -1 to 2
 
 ##### Q&A
 
-##### matrix to network
