@@ -348,8 +348,7 @@ pndata <- import("pndata.xlsx")
 pnnet <- graph_from_data_frame(pndata, directed=F)
 
 pnnet
-
-E(pnnet)$sign <- c(-1,1,1,-1,-1,1,1,-1)
+E(pnnet)$sign
 
 windows()
 plot(pnnet,
@@ -359,7 +358,11 @@ plot(pnnet,
      edge.width=2,
      edge.color=ifelse(E(pnnet)$sign==-1, "darkred", "navy"))
 
+### Number of triangles
 count_signed_triangles(pnnet)
+
+### Balanced?
+balance_score(pnnet, method = "triangles") ##Aref&Wilson (2018):0 to 1
 
 ## Degree centrality
 degree_signed(pnnet, type = "pos")
@@ -367,14 +370,16 @@ degree_signed(pnnet, type = "neg")
 degree_signed(pnnet, type = "ratio")
 degree_signed(pnnet, type = "net")
 
-pn_index(pnnet)
+
+## Positive and negative centrality
+pn_index(pnnet) # range: -1 to 2
 
 ## All positive ties
 pnnet2 <- graph_from_data_frame(pndata, directed=F)
 E(pnnet2)$sign <- 1
-pn_index(pnnet2)
+pn_index(pnnet2) # range: 1 to 2
 
 ## All negative ties
 pnnet3 <- graph_from_data_frame(pndata, directed=F)
 E(pnnet3)$sign <- -1
-pn_index(pnnet3)
+pn_index(pnnet3) # range: 0 to 1
