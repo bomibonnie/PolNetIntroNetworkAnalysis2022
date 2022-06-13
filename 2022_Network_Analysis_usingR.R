@@ -383,3 +383,44 @@ pn_index(pnnet2) # range: 1 to 2
 pnnet3 <- graph_from_data_frame(pndata, directed=F)
 E(pnnet3)$sign <- -1
 pn_index(pnnet3) # range: 0 to 1
+
+## Real data: rivalry and alliance in the Middle East
+
+pnnet_me <- import("rivdefme1980.csv")
+head(pnnet_me)
+
+pnnet_1980 <-graph_from_data_frame(d=pnnet_me, directed=F)
+E(pnnet_1980)$color <- ifelse(E(pnnet_1980)$sign==-1, "darkred", "navy") 
+
+windows()
+plot(pnnet_1980,
+     edge.color=E(pnnet_1980)$color,
+     edge.width=1.5,
+     vertex.size=4, 
+     vertex.frame.color="gray", 
+     vertex.color="white",
+     vertex.label.cex=0.8, 
+     vertex.label.color="black",
+     vertex.label.dist=1,
+     layout=layout_with_kk,
+     main="1980")
+
+### Number of triangles
+count_signed_triangles(pnnet_1980)
+
+### Balanced?
+balance_score(pnnet_1980, method = "triangles") ##Aref&Wilson (2018):0 to 1
+
+## Degree centrality
+degree_signed(pnnet_1980, type = "pos")
+degree_signed(pnnet_1980, type = "neg")
+degree_signed(pnnet_1980, type = "ratio")
+degree_signed(pnnet_1980, type = "net")
+
+
+## Positive and negative centrality
+pn_index(pnnet_1980) # range: -1 to 2
+
+##### Q&A
+
+##### matrix to network
