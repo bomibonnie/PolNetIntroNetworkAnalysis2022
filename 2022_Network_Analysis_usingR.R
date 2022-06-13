@@ -27,7 +27,6 @@ library(rio)
 getwd()
 #setwd("C:/Users/bomim/Documents/PolNetIntroNetworkAnalysis2022")
 
-
 ############Session 1############
 # Load and Plot Data
 
