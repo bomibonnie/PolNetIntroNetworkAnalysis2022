@@ -40,8 +40,15 @@ View(edge)
 # igraph (https://igraph.org/r/doc/)
 ## Directed, unweighted network plot
 
+?graph_from_data_frame
 net_igraph<-graph_from_data_frame(d=edge, v=node, directed=T)
+net_igraph_eonly<-graph_from_data_frame(d=edge, directed=T)
+
 net_igraph 
+net_igraph_eonly # No isolates: they are the same
+
+windows()
+plot(net_igraph) #default
 
 windows()
 plot(net_igraph,
@@ -55,22 +62,9 @@ plot(net_igraph,
      vertex.label.cex=1,
      vertex.label.dist=1.2,
      vertex.label.color="black")
-
-windows()
-plot(net_igraph,
-     edge.arrow.size=.5,
-     #edge.curved=0.2,
-     edge.color="black",
-     edge.width=1.5,
-     vertex.size=5, 
-     vertex.frame.color="gray",
-     vertex.color="white",
-     vertex.label.cex=1,
-     vertex.label.dist=1.2,
-     vertex.label.color="black")
+### For better network plots, attend "Network Visualization with R."
 
 ## Undirected, unweighted
-?graph_from_data_frame
 net_igraph2<-graph_from_data_frame(d=edge, v=node, directed=F)
 net_igraph2 # duplicates
 
@@ -116,7 +110,7 @@ plot(net_igraph,
      edge.arrow.size=.6,
      edge.curved=0.2,
      edge.color=E(net_igraph)$color,
-     vertex.size=8, 
+     vertex.size=7, 
      vertex.frame.color="white", 
      vertex.color=ifelse(V(net_igraph)$gender=="M", "gray", "black"),
      vertex.label.cex=1.5,
@@ -146,7 +140,7 @@ plot(net_igraph2,
      vertex.label.dist=1.5)
 
 
-## Real Data: Defensive Alliance (ATOP)
+## Real data: defense pacts (ATOP: Leeds et al. 2002)
 atop <- import("atop_sample2.csv")
 
 head(atop)
@@ -214,13 +208,12 @@ plot(net_statnet,
      displaylabels=T,
      edge.lwd=5*net_statnet%e%"Weight") 
 
-netweighted<-as.network(edge, 
-                     matrix.type="edgelist",
-                     ignore.eval=FALSE)
+netweighted <- network(edge, 
+                       matrix.type="edgelist",
+                       ignore.eval=FALSE) ## Another way to load weights
 
 netweighted
 #ignore.eval: logical; ignore edge values?
-#names.eval: optionally, the name of the attribute in which edge values should be stored
 
 windows()
 plot(netweighted,
@@ -249,6 +242,7 @@ plot(netweighted,
      vertex.col=ifelse(netweighted%v%"gender"=="F","black","gray"))
 
 
+### Break: troubleshooting ###
 
 ############Session 2############
 # Calculate Network Statistics
@@ -256,7 +250,7 @@ plot(netweighted,
 ## Using statnet (count edges & triangles)
 summary(net_statnet ~ edges)
 atopnet<-network(atop1997_dat, matrix.type="edgelist")
-summary(atopnet ~ triangles)
+summary(atopnet ~ edges+triangles)
 
 ## Using igraph
 detach("package:statnet", unload = TRUE)
@@ -335,7 +329,8 @@ eigen_centrality(atop1997und)$vector
 
 ### Betweenness (directed or undirected)
 betweenness(net_igraph)
-betweenness(atop1997und)
+betweenness(atop1997und, directed = FALSE)
+
 
 ### Closeness (directed or undirected)
 closeness(net_igraph)
